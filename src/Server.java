@@ -3,7 +3,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
-    private static final int PORT = 8000;
+    public static final int PORT = 8000;
     private ServerSocket serverSocket;
 
     public static void main(String[] args) {
@@ -11,7 +11,7 @@ public class Server {
     }
 
     private void start() {
-        System.out.println("Servidor escutando na porta " + PORT);
+        System.out.println("Server listen on port " + PORT);
         try {
             while (true) {
                 Socket socket = serverSocket.accept();
