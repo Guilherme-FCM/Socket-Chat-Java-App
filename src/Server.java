@@ -15,6 +15,11 @@ public class Server {
         try {
             while (true) {
                 Socket socket = serverSocket.accept();
+                System.out.println("Client " + socket.getInetAddress() + " connected.");
+
+                SocketClient socketClient = new SocketClient(socket);
+                String message = socketClient.getMessage();
+                System.out.println("Client " + socket.getInetAddress() + ": " + message);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
