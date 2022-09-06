@@ -14,16 +14,22 @@ public class Server {
         System.out.println("Server listen on port " + PORT);
         try {
             while (true) {
-                Socket socket = serverSocket.accept();
-                System.out.println("Client " + socket.getInetAddress() + " connected.");
+                SocketClient socketClient = new SocketClient(serverSocket.accept());
+                System.out.println("Client " + socketClient.getInetAddress() + " connected.");
 
-                SocketClient socketClient = new SocketClient(socket);
-                String message = socketClient.getMessage();
-                System.out.println("Client " + socket.getInetAddress() + ": " + message);
+                messageLoop(socketClient);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static void messageLoop(SocketClient socketClient) {
+        String message;
+        do {
+            message = socketClient.getMessage();
+            System.out.println("Client " + socketClient.getInetAddress() + ": " + message);
+        } while (!message.isEmpty());
     }
 
     public Server() {
