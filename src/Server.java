@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 
 public class Server {
     public static final int PORT = 8000;
@@ -17,7 +16,7 @@ public class Server {
                 SocketClient socketClient = new SocketClient(serverSocket.accept());
                 System.out.println("Client " + socketClient.getInetAddress() + " connected.");
 
-                messageLoop(socketClient);
+                new Thread(() -> messageLoop(socketClient)).start();
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -25,7 +24,7 @@ public class Server {
     }
 
     private static void messageLoop(SocketClient socketClient) {
-        String message;
+        String message = "";
         do {
             message = socketClient.getMessage();
             System.out.println("Client " + socketClient.getInetAddress() + ": " + message);
