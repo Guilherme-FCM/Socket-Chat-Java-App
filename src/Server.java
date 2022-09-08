@@ -13,7 +13,6 @@ public class Server {
     }
 
     private void start() {
-        System.out.println("Server listen on port " + PORT);
         try {
             while (true) {
                 SocketClient socketClient = new SocketClient(serverSocket.accept());
@@ -32,18 +31,19 @@ public class Server {
         do {
             message = socketClient.getMessage();
             System.out.println("Client " + socketClient.getInetAddress() + ": " + message);
-            this.sendMessageToClients(message);
+            this.sendMessageToClients(socketClient, message);
         } while (!message.isEmpty());
     }
 
-    private void sendMessageToClients(String message){
+    private void sendMessageToClients(SocketClient sender, String message){
         for (SocketClient client : clients)
-            client.sendMessage(message);
+            if(!client.equals(sender)) client.sendMessage(message);
     }
 
     public Server() {
         try {
             serverSocket = new ServerSocket(PORT);
+            System.out.println("Server listen on port " + PORT);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

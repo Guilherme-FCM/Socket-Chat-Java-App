@@ -13,6 +13,10 @@ public class Client implements Runnable {
 
     private void start() {
         new Thread(this).start();
+        this.messageLoop();
+    }
+
+    private void messageLoop() {
         String message;
         do {
             System.out.print("Type a message: ");
@@ -23,11 +27,11 @@ public class Client implements Runnable {
 
     public Client() {
         try {
-            System.out.println("Connecting to server.");
+            System.out.println("Connecting to server...");
             this.socketClient = new SocketClient(
                 new Socket(HOST, Server.PORT)
             );
-            System.out.println("Connected.");
+            System.out.println("Connected on server in " + HOST);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -36,7 +40,9 @@ public class Client implements Runnable {
     @Override
     public void run(){
         String message;
-        while ((message = this.socketClient.getMessage()) != null)
-            System.out.println("Mensagem recebida: " + message);
+        while ((message = this.socketClient.getMessage()) != null){
+            System.out.println("\nMessage received: " + message);
+            System.out.print("Type a message: ");
+        }
     }
 }
