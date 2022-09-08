@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Client {
+public class Client implements Runnable {
     private static final String HOST = "localhost";
     private Socket socket;
     private final SocketClient socketClient;
@@ -13,6 +13,7 @@ public class Client {
     }
 
     private void start() {
+        new Thread(this).start();
         String message;
         do {
             System.out.print("Type a message: ");
@@ -30,5 +31,12 @@ public class Client {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void run(){
+        String message;
+        while ((message = this.socketClient.getMessage()) != null)
+            System.out.println("Mensagem recebida: " + message);
     }
 }
