@@ -33,6 +33,7 @@ public class Server {
             System.out.println("Client " + socketClient.getInetAddress() + ": " + message);
             this.sendMessageToClients(socketClient, message);
         } while (!message.isEmpty());
+        socketClient.close();
     }
 
     private void sendMessageToClients(SocketClient sender, String message){

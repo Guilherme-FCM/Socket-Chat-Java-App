@@ -39,4 +39,15 @@ public class SocketClient {
     public InetAddress getInetAddress(){
         return socket.getInetAddress();
     }
+
+    public boolean close(){
+        try {
+            in.close();
+            out.close();
+            socket.close();
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
 }

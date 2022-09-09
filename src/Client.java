@@ -23,6 +23,7 @@ public class Client implements Runnable {
             message = scanner.nextLine();
             this.socketClient.sendMessage(message);
         } while( !message.equalsIgnoreCase("sair") );
+        this.socketClient.close();
     }
 
     public Client() {
